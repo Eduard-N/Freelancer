@@ -5,11 +5,11 @@
 //  Created by Kais Segni on 12/06/2021.
 //
 
+import Combine
 import Foundation
 import RealmSwift
 
-class ProjectViewModel {
-
+class ProjectViewModel: ObservableObject {
     let hourlyBasePrice: Double = 500.0
     let dbManager: DataManager
     let projectRepository: ProjectRepository
@@ -20,6 +20,11 @@ class ProjectViewModel {
         self.dbManager = dbManager
         projectRepository = ProjectRepository(dbManager: dbManager)
         sessionRepository = SessionRepository(dbManager: dbManager)
+    }
+
+    convenience init(fetchCompleted: Bool) {
+        self.init()
+        dataSourceUsingCombine()
     }
 
     func bind() {
@@ -45,7 +50,7 @@ class ProjectViewModel {
     }
 
     func saveProject(_ name: String, _ completed: Bool) {
-        let projectDto = ProjectDTO.init(name: name, completed: completed)
+        let projectDto = ProjectDTO(name: name, completed: completed)
         if !exist(projectDto) {
             saveProject(projectDto)
         } else {
@@ -57,8 +62,11 @@ class ProjectViewModel {
         projectRepository.update(projectDTO)
     }
 
-    func getProjects() -> [ProjectDTO] {
-        return projectRepository.getAllProjects()
+    func getProjects(name: String = "") -> [ProjectDTO] {
+        if name.isEmpty {
+            return projectRepository.getAllProjects()
+        }
+        return projectRepository.searchInProgressProjects(on: name)
     }
 
     func deleteProjects() {
@@ -71,7 +79,7 @@ class ProjectViewModel {
         let sessions = projectDto.sessions
         projectRepository.delete(projectDto)
         for session in sessions {
-            let predicate =  NSPredicate(format: "sessionId == %@", session.sessionId)
+            let predicate = NSPredicate(format: "sessionId == %@", session.sessionId)
             sessionRepository.delete(session, predicate: predicate)
         }
     }
@@ -94,15 +102,15 @@ class ProjectViewModel {
     }
 
     func timeSpent(_ project: ProjectDTO) -> Double {
-        return project.sessions.map({$0.sessionLength}).reduce(0, +).rounded()
+        return project.sessions.map({ $0.sessionLength }).reduce(0, +).rounded()
     }
 
     func getNonInvoiceSessions(_ project: ProjectDTO) -> [SessiontDTO] {
-        return project.sessions.filter {!$0.invoiced}
+        return project.sessions.filter { !$0.invoiced }
     }
 
     func invoicedAmount(_ project: ProjectDTO) -> Double {
-        return  (getNonInvoiceSessions(project).map({$0.sessionLength}).reduce(0, +) * hourlyBasePrice).rounded()
+        return (getNonInvoiceSessions(project).map({ $0.sessionLength }).reduce(0, +) * hourlyBasePrice).rounded()
     }
 
     func invoice(_ project: ProjectDTO) {
@@ -113,10 +121,12 @@ class ProjectViewModel {
             sessionRepository.update(session)
         }
     }
+
     func observeChanges() {
         if let results = projectRepository.getAll() {
             notificationToken = results.observe { [weak self] _ in
                 self?.updateDataSourceHandler?()
+                self?.dataSourceUsingCombine()
             }
         }
     }
@@ -125,11 +135,25 @@ class ProjectViewModel {
 
     // 6. TODO: - Use combine to fetch data source
 
-    func dataSourceUsingCombine() {}
+    @Published var completedProjects: [ProjectDTO] = []
+
+    var cancellables = Set<AnyCancellable>()
+
+    func dataSourceUsingCombine() {
+        projectRepository.getAll()
+            .sink { _ in
+                // handle error
+            } receiveValue: { projects in
+                self.completedProjects = projects
+                    .filter({ $0.completed })
+                    .sorted(by: { $1.name > $0.name })
+            }
+            .store(in: &cancellables)
+    }
 
     func dataSource() -> ([ProjectDTO], [ProjectDTO]) {
-        let uncompletedProjects = getProjects().filter({!$0.completed})
-        let completedProjects = getProjects().filter({$0.completed})
+        let uncompletedProjects = getProjects().filter({ !$0.completed })
+        let completedProjects = getProjects().filter({ $0.completed })
         return (
             uncompletedProjects.sorted(by: { $1.name > $0.name }),
             completedProjects.sorted(by: { $1.name > $0.name })

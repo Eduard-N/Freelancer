@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct ProjectDTO {
+struct ProjectDTO: Identifiable {
+    var id: UUID = UUID()
     var name = ""
     var completed = false
     var sessions = [SessiontDTO]()

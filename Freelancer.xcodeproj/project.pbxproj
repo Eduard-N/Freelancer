@@ -10,6 +10,8 @@
 		232A583B28B4E96100C9AE48 /* ProjectTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 232A583828B4E92900C9AE48 /* ProjectTableViewControllerTests.swift */; };
 		23E0E97D28B4F84A00A44CD6 /* ProjectDetailsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E0E97C28B4F84A00A44CD6 /* ProjectDetailsViewControllerTests.swift */; };
 		23E0E97F28B4F85700A44CD6 /* ArchivedProjectsTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E0E97E28B4F85700A44CD6 /* ArchivedProjectsTableViewControllerTests.swift */; };
+		2C5BDC9728BF8F2200778D3E /* ArchivedProjectsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5BDC9628BF8F2200778D3E /* ArchivedProjectsListView.swift */; };
+		2C5BDC9928BF9D9700778D3E /* ProjectDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5BDC9828BF9D9700778D3E /* ProjectDetailsView.swift */; };
 		98DE69F18F3BF699D78BB05A /* Pods_FreelancerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B145BC0F7936940CA2DC4F2 /* Pods_FreelancerTests.framework */; };
 		EB9823782672941A00939804 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9823772672941A00939804 /* AppDelegate.swift */; };
 		EB98237A2672941A00939804 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9823792672941A00939804 /* SceneDelegate.swift */; };
@@ -73,6 +75,8 @@
 		232A583828B4E92900C9AE48 /* ProjectTableViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTableViewControllerTests.swift; sourceTree = "<group>"; };
 		23E0E97C28B4F84A00A44CD6 /* ProjectDetailsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsViewControllerTests.swift; sourceTree = "<group>"; };
 		23E0E97E28B4F85700A44CD6 /* ArchivedProjectsTableViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedProjectsTableViewControllerTests.swift; sourceTree = "<group>"; };
+		2C5BDC9628BF8F2200778D3E /* ArchivedProjectsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedProjectsListView.swift; sourceTree = "<group>"; };
+		2C5BDC9828BF9D9700778D3E /* ProjectDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailsView.swift; sourceTree = "<group>"; };
 		430AFD32D0535E035CC861CA /* Pods-FreelancerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FreelancerTests.debug.xcconfig"; path = "Target Support Files/Pods-FreelancerTests/Pods-FreelancerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9B145BC0F7936940CA2DC4F2 /* Pods_FreelancerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FreelancerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AABC1072CB6B7B8CB28997B0 /* Pods-Freelancer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Freelancer.debug.xcconfig"; path = "Target Support Files/Pods-Freelancer/Pods-Freelancer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -222,6 +226,8 @@
 				EBC12FF52676B9210076D659 /* ProjectTableViewController.swift */,
 				EBA22188267948B20043EB98 /* ArchivedProjectsTableViewController.swift */,
 				EBC1301B2677896F0076D659 /* ProjectDetailsViewController.swift */,
+				2C5BDC9628BF8F2200778D3E /* ArchivedProjectsListView.swift */,
+				2C5BDC9828BF9D9700778D3E /* ProjectDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -395,6 +401,7 @@
 				EB9823712672941A00939804 /* Frameworks */,
 				EB9823722672941A00939804 /* Resources */,
 				23CFAC3628B4D8BA00CA0565 /* ShellScript */,
+				9B9C481FAF31835A828AE661 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -510,6 +517,23 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		9B9C481FAF31835A828AE661 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Freelancer/Pods-Freelancer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Freelancer/Pods-Freelancer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Freelancer/Pods-Freelancer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A8F4265C7AAD19EBB5C1A8DB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -594,10 +618,12 @@
 				EBC13016267788160076D659 /* AppCoordinator.swift in Sources */,
 				EBD79020267514CB0078D546 /* DBManager.swift in Sources */,
 				EBD7900D2674FF000078D546 /* RealmProvider.swift in Sources */,
+				2C5BDC9928BF9D9700778D3E /* ProjectDetailsView.swift in Sources */,
 				EBCE70742677CCDD008D691B /* Date.swift in Sources */,
 				EBD79022267514F40078D546 /* DBManager+DataManager.swift in Sources */,
 				EBD7901E267511210078D546 /* RealmObject+Storable.swift in Sources */,
 				EBA221812678D4F00043EB98 /* Theme.swift in Sources */,
+				2C5BDC9728BF8F2200778D3E /* ArchivedProjectsListView.swift in Sources */,
 				EBCE70782677D636008D691B /* SessionRepository.swift in Sources */,
 				EBC13018267788560076D659 /* StoryboardInitilizer.swift in Sources */,
 				EBC12FF92676BF100076D659 /* UIViewController.swift in Sources */,

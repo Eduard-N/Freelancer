@@ -9,8 +9,8 @@ import Foundation
 import RealmSwift
 
 // MARK: - Repository
-class Repository<T> {
 
+class Repository<T> {
     // MARK: - Properties
 
     var dbManager: DataManager
@@ -52,7 +52,7 @@ class Repository<T> {
         try dbManager.deleteAll(model)
     }
 
-    func getAll<T>(_ model: T.Type)-> Results<Object>? where T: Storable {
+    func getAll<T>(_ model: T.Type) -> Results<Object>? where T: Storable {
         return dbManager.getAll(model)
     }
 
@@ -61,4 +61,14 @@ class Repository<T> {
     }
 
     // 2. Bonus task TODO: - Implement search for a project using a name
+
+    func search<T>(
+        _ model: T.Type,
+        key: String,
+        value: String,
+        sorted: Sorted?
+    ) -> [Storable] where T: Storable {
+        let predicate = NSPredicate(format: "\(key) CONTAINS[cd] %@", value)
+        return dbManager.fetch(model, predicate: predicate, sorted: sorted)
+    }
 }
